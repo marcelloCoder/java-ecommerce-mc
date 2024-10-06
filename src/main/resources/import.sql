@@ -74,7 +74,7 @@ INSERT INTO tb_product_category (product_id, category_id) VALUES (30, 5); -- Tre
 
 
 -- Inserir Usuários
-INSERT INTO tb_user (name, email, phone, birth_date, password) VALUES ('Alice', 'alice@example.com', '1234567890', '1990-01-01', 'password123'), ('Bob', 'bob@example.com', '0987654321', '1985-05-12', 'securepass');
+INSERT INTO tb_user (name, email, phone, birth_date, password) VALUES ('Alice', 'alice@example.com', '1234567890', '1990-01-01', '$2a$10$onOUZH3B60kq0.k55zmY.eRy7JoIWAnQG/d..ksac.Z/ofkRWPJt2'), ('Bob', 'bob@example.com', '0987654321', '1985-05-12', '$2a$10$onOUZH3B60kq0.k55zmY.eRy7JoIWAnQG/d..ksac.Z/ofkRWPJt2');
 
 -- Inserir Pedidos
 INSERT INTO tb_order (moment, status, client_id) VALUES (TIMESTAMP WITH TIME ZONE '2024-02-25T13:00:00Z', 1, 1); -- Pedido de Alice
