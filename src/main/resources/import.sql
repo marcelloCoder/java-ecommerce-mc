@@ -88,3 +88,10 @@ INSERT INTO tb_order_item (order_id, product_id, quantity, price) VALUES (2, 3, 
 
 -- Inserir Pagamentos
 INSERT INTO tb_payment (moment, order_id) VALUES (TIMESTAMP WITH TIME ZONE '2024-08-05 10:15:00', 2); -- Pagamento para Pedido de Bob
+
+INSERT INTO tb_role (authority) VALUES ('ROLE_OPERATOR');
+INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');
+
+INSERT INTO tb_user_role (user_id, role_id) VALUES (1, 1);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 1);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 2);
