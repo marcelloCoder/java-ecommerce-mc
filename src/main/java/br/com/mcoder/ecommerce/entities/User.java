@@ -82,7 +82,17 @@ public class User implements UserDetails {
         this.birthDate = birthDate;
     }
 
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     public String getPassword() {
         return password;
