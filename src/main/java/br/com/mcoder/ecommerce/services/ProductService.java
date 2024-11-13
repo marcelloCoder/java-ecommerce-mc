@@ -1,6 +1,7 @@
 package br.com.mcoder.ecommerce.services;
 
 import br.com.mcoder.ecommerce.dto.ProductDTO;
+import br.com.mcoder.ecommerce.dto.ProductMinDTO;
 import br.com.mcoder.ecommerce.entities.Product;
 import br.com.mcoder.ecommerce.repositories.ProductRepository;
 import br.com.mcoder.ecommerce.services.exceptions.DatabaseException;
@@ -32,9 +33,9 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(Pageable pageable) {
+    public Page<ProductMinDTO> findAll(Pageable pageable) {
         Page<Product> productList = repository.findAll(pageable);
-        return productList.map(x -> new ProductDTO(x));
+        return productList.map(x -> new ProductMinDTO(x));
     }
 
     @Transactional

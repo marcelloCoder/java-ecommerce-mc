@@ -1,6 +1,7 @@
 package br.com.mcoder.ecommerce.controllers;
 
 import br.com.mcoder.ecommerce.dto.ProductDTO;
+import br.com.mcoder.ecommerce.dto.ProductMinDTO;
 import br.com.mcoder.ecommerce.entities.Product;
 import br.com.mcoder.ecommerce.services.ProductService;
 import jakarta.validation.Valid;
@@ -29,8 +30,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable){
-        Page<ProductDTO> dto =productService.findAll(pageable);
+    public ResponseEntity<Page<ProductMinDTO>> findAll(Pageable pageable){
+        Page<ProductMinDTO> dto =productService.findAll(pageable);
         return ResponseEntity.ok(dto);
     }
 
