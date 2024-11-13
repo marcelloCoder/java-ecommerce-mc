@@ -1,7 +1,9 @@
 package br.com.mcoder.ecommerce.services;
 
+import br.com.mcoder.ecommerce.dto.CategoryDTO;
 import br.com.mcoder.ecommerce.dto.ProductDTO;
 import br.com.mcoder.ecommerce.dto.ProductMinDTO;
+import br.com.mcoder.ecommerce.entities.Category;
 import br.com.mcoder.ecommerce.entities.Product;
 import br.com.mcoder.ecommerce.repositories.ProductRepository;
 import br.com.mcoder.ecommerce.services.exceptions.DatabaseException;
@@ -74,5 +76,11 @@ public class ProductService {
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
         product.setImgUrl(productDTO.getImgUrl());
+        product.getCategories().clear();
+        for (CategoryDTO categoryDTO : productDTO.getCategoryDTOS()){
+            Category category = new Category();
+            category.setId(categoryDTO.getId());
+            product.getCategories().add(category);
+        }
     }
 }
