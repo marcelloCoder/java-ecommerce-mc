@@ -1,8 +1,6 @@
 package br.com.mcoder.ecommerce.controllers;
 
 import br.com.mcoder.ecommerce.dto.CategoryDTO;
-import br.com.mcoder.ecommerce.dto.ProductDTO;
-import br.com.mcoder.ecommerce.entities.Category;
 import br.com.mcoder.ecommerce.services.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/categories")
@@ -28,8 +27,8 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<CategoryDTO>> findAll(Pageable pageable){
-        Page<CategoryDTO> categoryDTOS = categoryService.findAll(pageable);
+    public ResponseEntity<List<CategoryDTO>> findAll(){
+        List<CategoryDTO> categoryDTOS = categoryService.findAll();
         return ResponseEntity.ok(categoryDTOS);
     }
 

@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class CategoryService {
 
@@ -26,9 +28,9 @@ public class CategoryService {
     }
 
     @Transactional(readOnly = true)
-    public Page<CategoryDTO> findAll(Pageable pageable){
-        Page<Category> categoryPage = categoryRepository.findAll(pageable);
-        return categoryPage.map(x -> new CategoryDTO(x));
+    public List<CategoryDTO> findAll(){
+        List<Category> categoryPage = categoryRepository.findAll();
+        return categoryPage.stream().map(x -> new CategoryDTO(x)).toList();
     }
 
     @Transactional
