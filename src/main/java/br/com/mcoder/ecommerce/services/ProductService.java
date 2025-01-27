@@ -80,6 +80,7 @@ public class ProductService {
         for (CategoryDTO categoryDTO : productDTO.getCategoryDTOS()){
             Category category = new Category();
             category.setId(categoryDTO.getId());
+            category.setName(categoryDTO.getName());
             product.getCategories().add(category);
         }
     }
