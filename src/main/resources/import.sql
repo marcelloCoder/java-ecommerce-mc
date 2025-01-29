@@ -7,11 +7,25 @@ INSERT INTO tb_category (name) VALUES ('Home & Kitchen');
 INSERT INTO tb_product (name, description, price, img_url) VALUES ('Smartphone', 'Latest model smartphone', 800.00, 'http://example.com/smartphone.jpg');
 INSERT INTO tb_product (name, description, price, img_url) VALUES ('Tablet', '10-inch display tablet', 300.00, 'http://example.com/tablet.jpg');
 INSERT INTO tb_product (name, description, price, img_url) VALUES ('Blender', 'High-speed blender', 150.00, 'http://example.com/blender.jpg');
+INSERT INTO tb_product (name, description, price, img_url) VALUES ('Laptop', '15-inch gaming laptop', 1200.00, 'http://example.com/laptop.jpg');
+INSERT INTO tb_product (name, description, price, img_url) VALUES ('Headphones', 'Noise-cancelling headphones', 250.00, 'http://example.com/headphones.jpg');
+INSERT INTO tb_product (name, description, price, img_url) VALUES ('Refrigerator', 'Energy-efficient refrigerator', 900.00, 'http://example.com/refrigerator.jpg');
+INSERT INTO tb_product (name, description, price, img_url) VALUES ('Coffee Maker', 'Automatic coffee maker', 100.00, 'http://example.com/coffeemaker.jpg');
+INSERT INTO tb_product (name, description, price, img_url) VALUES ('E-Reader', 'High-resolution e-reader', 150.00, 'http://example.com/ereader.jpg');
+INSERT INTO tb_product (name, description, price, img_url) VALUES ('Bookshelf', 'Minimalist bookshelf', 200.00, 'http://example.com/bookshelf.jpg');
+INSERT INTO tb_product (name, description, price, img_url) VALUES ('Microwave Oven', 'High-power microwave oven', 180.00, 'http://example.com/microwave.jpg');
 
 -- Relacionar Produtos com Categorias
 INSERT INTO tb_product_category (product_id, category_id) VALUES (1, 1);  -- Smartphone in Electronics
 INSERT INTO tb_product_category (product_id, category_id) VALUES (2, 1);  -- Tablet in Electronics
 INSERT INTO tb_product_category (product_id, category_id) VALUES (3, 3);  -- Blender in Home & Kitchen
+INSERT INTO tb_product_category (product_id, category_id) VALUES (4, 1);  -- Laptop in Electronics
+INSERT INTO tb_product_category (product_id, category_id) VALUES (5, 1);  -- Headphones in Electronics
+INSERT INTO tb_product_category (product_id, category_id) VALUES (6, 3);  -- Refrigerator in Home & Kitchen
+INSERT INTO tb_product_category (product_id, category_id) VALUES (7, 3);  -- Coffee Maker in Home & Kitchen
+INSERT INTO tb_product_category (product_id, category_id) VALUES (8, 2);  -- E-Reader in Books
+INSERT INTO tb_product_category (product_id, category_id) VALUES (9, 3);  -- Bookshelf in Home & Kitchen
+INSERT INTO tb_product_category (product_id, category_id) VALUES (10, 3); -- Microwave Oven in Home & Kitchen
 
 
 -- Inserir Usuários

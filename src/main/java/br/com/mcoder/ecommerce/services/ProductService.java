@@ -76,11 +76,12 @@ public class ProductService {
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
         product.setImgUrl(productDTO.getImgUrl());
+
         product.getCategories().clear();
-        for (CategoryDTO categoryDTO : productDTO.getCategoryDTOS()){
+        for (CategoryDTO categories : productDTO.getCategories()){
             Category category = new Category();
-            category.setId(categoryDTO.getId());
-            category.setName(categoryDTO.getName());
+            category.setId(categories.getId());
+            //category.setName(categories.getName());
             product.getCategories().add(category);
         }
     }

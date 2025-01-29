@@ -23,7 +23,7 @@ public class ProductDTO {
     private String imgUrl;
 
     @NotEmpty(message = "DEVE TER PELO MENOS 1 CATEGORIA")
-    private List<CategoryDTO> categoryDTOS = new ArrayList<>();
+    private List<CategoryDTO> categories = new ArrayList<>();
 
     public ProductDTO(Long id, String name, String description, Double price, String imgUrl) {
         this.id = id;
@@ -40,7 +40,7 @@ public class ProductDTO {
         price = entity.getPrice();
         imgUrl = entity.getImgUrl();
         for (Category category : entity.getCategories()){
-            categoryDTOS.add(new CategoryDTO(category));
+            categories.add(new CategoryDTO(category));
         }
     }
 
@@ -64,7 +64,7 @@ public class ProductDTO {
         return imgUrl;
     }
 
-    public List<CategoryDTO> getCategoryDTOS() {
-        return categoryDTOS;
+    public List<CategoryDTO> getCategories() {
+        return categories;
     }
 }
