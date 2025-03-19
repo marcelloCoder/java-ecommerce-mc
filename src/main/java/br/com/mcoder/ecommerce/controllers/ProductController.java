@@ -2,7 +2,6 @@ package br.com.mcoder.ecommerce.controllers;
 
 import br.com.mcoder.ecommerce.dto.ProductDTO;
 import br.com.mcoder.ecommerce.dto.ProductMinDTO;
-import br.com.mcoder.ecommerce.entities.Product;
 import br.com.mcoder.ecommerce.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +44,7 @@ public class ProductController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ProductDTO> findById(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO){
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO){
         productDTO = productService.update(id, productDTO);
         return ResponseEntity.ok(productDTO);
     }

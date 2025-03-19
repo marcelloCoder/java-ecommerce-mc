@@ -29,7 +29,6 @@ public class OrderItemDTO {
         return productId;
     }
 
-
     public String getName() {
         return name;
     }
@@ -46,7 +45,7 @@ public class OrderItemDTO {
         return imgUrl;
     }
 
-    public Double getSubTotal(){
+    public Double getSubTotal() {
         return price * quantity;
     }
 }

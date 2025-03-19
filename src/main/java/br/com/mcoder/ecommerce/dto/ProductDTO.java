@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDTO {
-
-
     private Long id;
     @Size(min = 3, max = 80, message = "Nome precisa ter de 3 a 80 caracteres")
     @NotBlank(message = "CAMPO REQUERIDO")
@@ -39,7 +37,7 @@ public class ProductDTO {
         description = entity.getDescription();
         price = entity.getPrice();
         imgUrl = entity.getImgUrl();
-        for (Category category : entity.getCategories()){
+        for (Category category : entity.getCategories()) {
             categories.add(new CategoryDTO(category));
         }
     }
