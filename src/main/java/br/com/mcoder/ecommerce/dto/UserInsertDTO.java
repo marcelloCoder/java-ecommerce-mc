@@ -6,10 +6,9 @@ import br.com.mcoder.ecommerce.services.validation.UserInsertValid;
 @UserInsertValid
 public class UserInsertDTO extends UserDTO {
     private String password;
-    public UserInsertDTO(User user) {
-        super(user);
+    UserInsertDTO() {
+        super();
     }
-
     public String getPassword() {
         return password;
     }
