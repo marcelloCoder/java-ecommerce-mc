@@ -31,7 +31,6 @@ public class ProductService {
         Product product = repository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Recurso não encontrado"));
         return new ProductDTO(product);
-
     }
 
     @Transactional(readOnly = true)

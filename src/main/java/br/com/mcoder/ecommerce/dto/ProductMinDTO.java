@@ -9,9 +9,7 @@ public class ProductMinDTO {
 
 
     private Long id;
-
     private String name;
-
     private Double price;
     private String imgUrl;
 
