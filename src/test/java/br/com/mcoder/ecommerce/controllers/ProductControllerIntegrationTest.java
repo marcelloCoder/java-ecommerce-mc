@@ -1,6 +1,8 @@
 package br.com.mcoder.ecommerce.controllers;
 
+import br.com.mcoder.ecommerce.dto.CategoryDTO;
 import br.com.mcoder.ecommerce.dto.ProductDTO;
+import br.com.mcoder.ecommerce.entities.Category;
 import br.com.mcoder.ecommerce.factory.ProductFactory;
 import br.com.mcoder.ecommerce.token.TokenUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -111,7 +113,10 @@ public class ProductControllerIntegrationTest {
     public void insertShouldReturn422WhenAdminLoggedAndBlankName() throws Exception {
         String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
 
-        ProductDTO productDTO = new ProductDTO(null," ", "Metal table", 220.0, "img");
+        CategoryDTO category = new CategoryDTO(1L, "Home & Kitchen");
+
+        ProductDTO productDTO = new ProductDTO(null,null, "Metal table", 220.0, "img");
+        productDTO.getCategories().add(category);
         String json = objectMapper.writeValueAsString(productDTO);
 
         ResultActions resultActions = mockMvc.perform(post("/products")
@@ -127,8 +132,57 @@ public class ProductControllerIntegrationTest {
     }
 
     @Test
+    public void insertShouldReturn422WhenAdminLoggedAndNegativePrice() throws Exception {
+        String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
+
+        CategoryDTO category = new CategoryDTO(1L, "Home & Kitchen");
+
+        ProductDTO productDTO = new ProductDTO(null,"Modern Table", "Metal table", -9.0, "img");
+        productDTO.getCategories().add(category);
+        String json = objectMapper.writeValueAsString(productDTO);
+
+        ResultActions resultActions = mockMvc.perform(post("/products")
+                .header("Authorization", "Bearer " + accessToken)
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
+        resultActions.andExpect(status().isUnprocessableEntity());
+        resultActions.andExpect(jsonPath("$.fieldMessages[0].fieldName").value("price"));
+        resultActions.andExpect(jsonPath("$.fieldMessages[0].message").value("O preço deve ser positivo"));
+
+    }
+
+    @Test
+    public void insertShouldReturn422WhenAdminLoggedAndDescriptionLessThan10() throws Exception {
+        String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
+
+        CategoryDTO category = new CategoryDTO(1L, "Home & Kitchen");
+
+        ProductDTO productDTO = new ProductDTO(null,"Modern Table", "Metal", 123.0, "img");
+        productDTO.getCategories().add(category);
+        String json = objectMapper.writeValueAsString(productDTO);
+
+        ResultActions resultActions = mockMvc.perform(post("/products")
+                .header("Authorization", "Bearer " + accessToken)
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
+        resultActions.andExpect(status().isUnprocessableEntity());
+        resultActions.andExpect(jsonPath("$.fieldMessages[0].fieldName").value("description"));
+        resultActions.andExpect(jsonPath("$.fieldMessages[0].message").value("Descrição precisa ter no minimo 10 caracteres"));
+
+    }
+
+
+
+    @Test
     public void findAllShouldReturnSortedPageWhenSortByName() throws Exception {
+        String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
+
         ResultActions resultActions = mockMvc.perform(get("/products?page=0&size=12&sort=name,asc")
+                .header("Authorization", "Bearer " + accessToken)
                 .accept(MediaType.APPLICATION_JSON));
 
         resultActions.andExpect(status().isOk());

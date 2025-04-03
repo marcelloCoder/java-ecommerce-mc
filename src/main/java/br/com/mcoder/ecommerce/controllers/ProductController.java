@@ -28,6 +28,7 @@ public class ProductController {
        return ResponseEntity.ok(dto);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
     @GetMapping
     public ResponseEntity<Page<ProductMinDTO>> findAll(Pageable pageable){
         Page<ProductMinDTO> dto =productService.findAll(pageable);
@@ -43,12 +44,14 @@ public class ProductController {
         return ResponseEntity.created(uri).body(productDTO);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO){
         productDTO = productService.update(id, productDTO);
         return ResponseEntity.ok(productDTO);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         productService.delete(id);
