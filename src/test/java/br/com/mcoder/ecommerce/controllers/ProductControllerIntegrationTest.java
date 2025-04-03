@@ -14,8 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,16 +36,94 @@ public class ProductControllerIntegrationTest {
     private Long nonExistingId;
     private Long countTotalProducts;
 
-    private String username, password, bearerToken;
+    private String operatorUsername, operatorPassword, bearerToken;
+    private String adminUsername, adminPassword;
 
     @BeforeEach
     void setUp() throws Exception {
         existingId = 1L;
         nonExistingId = 1000L;
         countTotalProducts = 10L;
-        username = "bob@example.com";
-        password = "123456";
-        bearerToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
+        operatorUsername = "alice@example.com";
+        operatorPassword = "123456";
+        adminUsername = "bob@example.com";
+        adminPassword = "123456";
+        bearerToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
+    }
+
+    @Test
+    public void insertShouldReturn403WhenOperatorLogged() throws Exception {
+        String accessToken = tokenUtil.obtainAccessToken(mockMvc, operatorUsername, operatorPassword);
+
+        ProductDTO productDTO = ProductFactory.createProductDto();
+
+        String json = objectMapper.writeValueAsString(productDTO);
+
+        ResultActions resultActions = mockMvc.perform(post("/products")
+                .header("Authorization", "Bearer " + accessToken)
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
+        resultActions.andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void insertShouldReturn401WhenNoUserLogged() throws Exception {
+
+        ProductDTO productDTO = ProductFactory.createProductDto();
+
+        String json = objectMapper.writeValueAsString(productDTO);
+
+        ResultActions resultActions = mockMvc.perform(post("/products")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
+        resultActions.andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void insertShouldInsertResourceWhenAdminLoggedAndCorrectData() throws Exception {
+
+        String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
+        ProductDTO productDTO = ProductFactory.createProductDto();
+        String json = objectMapper.writeValueAsString(productDTO);
+
+        String expectedName = productDTO.getName();
+        String expectedDescription = productDTO.getDescription();
+
+        ResultActions resultActions = mockMvc.perform(post("/products")
+                .header("Authorization", "Bearer " + accessToken)
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
+        resultActions.andExpect(status().isCreated());
+        resultActions.andExpect(jsonPath("$.id").exists());
+        resultActions.andExpect(jsonPath("$.name").value(expectedName));
+        resultActions.andExpect(jsonPath("$.description").value(expectedDescription));
+        resultActions.andExpect(jsonPath("$.price").value(productDTO.getPrice()));
+
+    }
+
+    @Test
+    public void insertShouldReturn422WhenAdminLoggedAndBlankName() throws Exception {
+        String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
+
+        ProductDTO productDTO = new ProductDTO(null," ", "Metal table", 220.0, "img");
+        String json = objectMapper.writeValueAsString(productDTO);
+
+        ResultActions resultActions = mockMvc.perform(post("/products")
+                .header("Authorization", "Bearer " + accessToken)
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
+        resultActions.andExpect(status().isUnprocessableEntity());
+        resultActions.andExpect(jsonPath("$.fieldMessages[0].fieldName").value("name"));
+        resultActions.andExpect(jsonPath("$.fieldMessages[0].message").value("CAMPO REQUERIDO"));
+
     }
 
     @Test
