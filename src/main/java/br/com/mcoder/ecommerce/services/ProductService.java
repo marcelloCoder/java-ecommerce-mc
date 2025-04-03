@@ -5,6 +5,7 @@ import br.com.mcoder.ecommerce.dto.ProductDTO;
 import br.com.mcoder.ecommerce.dto.ProductMinDTO;
 import br.com.mcoder.ecommerce.entities.Category;
 import br.com.mcoder.ecommerce.entities.Product;
+import br.com.mcoder.ecommerce.repositories.CategoryRepository;
 import br.com.mcoder.ecommerce.repositories.ProductRepository;
 import br.com.mcoder.ecommerce.services.exceptions.DatabaseException;
 import br.com.mcoder.ecommerce.services.exceptions.ResourceNotFoundException;
@@ -25,6 +26,9 @@ public class ProductService {
 
     @Autowired
     private ProductRepository repository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
@@ -77,10 +81,9 @@ public class ProductService {
         product.setImgUrl(productDTO.getImgUrl());
 
         product.getCategories().clear();
-        for (CategoryDTO categories : productDTO.getCategories()){
-            Category category = new Category();
-            category.setId(categories.getId());
-            //category.setName(categories.getName());
+        for (CategoryDTO categoryDTO : productDTO.getCategories()) {
+            Category category = categoryRepository.findById(categoryDTO.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada! : " + categoryDTO.getId() + " nome " + categoryDTO.getName()));
             product.getCategories().add(category);
         }
     }

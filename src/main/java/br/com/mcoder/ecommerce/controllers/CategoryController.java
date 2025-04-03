@@ -21,14 +21,12 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<CategoryDTO> findById(@PathVariable Long id){
         CategoryDTO categoryDTO = categoryService.findById(id);
         return ResponseEntity.ok(categoryDTO);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
     @GetMapping
     public ResponseEntity<List<CategoryDTO>> findAll(){
         List<CategoryDTO> categoryDTOS = categoryService.findAll();

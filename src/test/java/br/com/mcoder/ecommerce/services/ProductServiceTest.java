@@ -1,5 +1,6 @@
 package br.com.mcoder.ecommerce.services;
 
+import br.com.mcoder.ecommerce.dto.CategoryDTO;
 import br.com.mcoder.ecommerce.dto.ProductDTO;
 import br.com.mcoder.ecommerce.dto.ProductMinDTO;
 import br.com.mcoder.ecommerce.entities.Category;
@@ -76,6 +77,11 @@ public class ProductServiceTest {
         Mockito.when(repository.existsById(existingId)).thenReturn(true);
         Mockito.when(repository.existsById(nonExistingId)).thenReturn(false);
         Mockito.when(repository.existsById(dependentId)).thenReturn(true);
+
+        Mockito.when(categoryRepository.findById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.of(new Category(1L, "Electronics")));
+
+
     }
 
     @Test
@@ -130,10 +136,18 @@ public class ProductServiceTest {
     @Test
     public void updateShouldReturnProductDTOWhenIdExists() {
         ProductDTO dto = ProductFactory.createProductDto();
+
+        // Debug: imprimir os IDs das categorias no DTO antes da atualização
+        for (CategoryDTO cat : dto.getCategories()) {
+            System.out.println("ID da categoria no DTO: " + cat.getId());
+        }
+
         ProductDTO result = service.update(existingId, dto);
         Assertions.assertNotNull(result);
         Assertions.assertEquals(product.getId(), result.getId());
     }
+
+
 
     @Test
     public void updateShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
