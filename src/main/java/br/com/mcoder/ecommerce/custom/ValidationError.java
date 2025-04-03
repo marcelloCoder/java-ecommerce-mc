@@ -1,10 +1,10 @@
-package br.com.mcoder.ecommerce.dto;
+package br.com.mcoder.ecommerce.custom;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ValidationError extends CustomError{
+public class ValidationError extends CustomError {
 
     private List<FieldMessage> errors = new ArrayList<>();
     public ValidationError(Instant timestamp, Integer status, String error, String path) {

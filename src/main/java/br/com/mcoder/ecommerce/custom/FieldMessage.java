@@ -1,4 +1,4 @@
-package br.com.mcoder.ecommerce.dto;
+package br.com.mcoder.ecommerce.custom;
 
 public class FieldMessage {
 

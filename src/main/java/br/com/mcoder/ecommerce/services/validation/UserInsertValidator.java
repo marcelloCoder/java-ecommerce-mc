@@ -1,7 +1,6 @@
 package br.com.mcoder.ecommerce.services.validation;
 
-import br.com.mcoder.ecommerce.dto.FieldMessage;
-import br.com.mcoder.ecommerce.dto.UserDTO;
+import br.com.mcoder.ecommerce.custom.FieldMessage;
 import br.com.mcoder.ecommerce.dto.UserInsertDTO;
 import br.com.mcoder.ecommerce.entities.User;
 import br.com.mcoder.ecommerce.repositories.UserRepository;
