@@ -62,7 +62,6 @@ public class ProductServiceTest {
         Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(product);
 
         Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(product));
-
         Mockito.when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
 
         Mockito.when(repository.getReferenceById(existingId)).thenReturn(product);
@@ -80,8 +79,6 @@ public class ProductServiceTest {
 
         Mockito.when(categoryRepository.findById(ArgumentMatchers.anyLong()))
                 .thenReturn(Optional.of(new Category(1L, "Electronics")));
-
-
     }
 
     @Test
