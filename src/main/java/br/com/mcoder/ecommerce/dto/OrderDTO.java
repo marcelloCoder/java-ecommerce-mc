@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Set;
 
 public class OrderDTO {
-    private Long id;
-    private Instant moment;
-    private OrderStatus status;
-    private ClientDTO client;
-    private PaymentDTO payment;
-    private List<OrderItemDTO> items = new ArrayList<>();
+    private final Long id;
+    private final Instant moment;
+    private final OrderStatus status;
+    private final ClientDTO client;
+    private final PaymentDTO payment;
+    private final List<OrderItemDTO> items = new ArrayList<>();
 
     public OrderDTO(Long id, Instant moment, OrderStatus status, ClientDTO client, PaymentDTO payment) {
         this.id = id;
@@ -34,7 +34,7 @@ public class OrderDTO {
         this.moment = entity.getMoment();
         this.status = entity.getStatus();
         this.client = new ClientDTO(entity.getClient());
-        this.payment = (entity.getPayment() == null) ? null : new PaymentDTO(entity.getPayment());
+        this.payment = entity.getPayment() != null ? new PaymentDTO(entity.getPayment()) : null;
         for (OrderItem orderItem : entity.getItemSet()){
             OrderItemDTO itemDTO = new OrderItemDTO(orderItem);
             items.add(itemDTO);

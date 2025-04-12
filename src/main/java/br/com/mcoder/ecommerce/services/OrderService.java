@@ -3,13 +3,11 @@ package br.com.mcoder.ecommerce.services;
 import br.com.mcoder.ecommerce.dto.OrderDTO;
 import br.com.mcoder.ecommerce.dto.OrderItemDTO;
 import br.com.mcoder.ecommerce.dto.ProductDTO;
-import br.com.mcoder.ecommerce.entities.Order;
-import br.com.mcoder.ecommerce.entities.OrderItem;
-import br.com.mcoder.ecommerce.entities.Product;
-import br.com.mcoder.ecommerce.entities.User;
+import br.com.mcoder.ecommerce.entities.*;
 import br.com.mcoder.ecommerce.entities.enums.OrderStatus;
 import br.com.mcoder.ecommerce.repositories.OrderItemRepository;
 import br.com.mcoder.ecommerce.repositories.OrderRepository;
+import br.com.mcoder.ecommerce.repositories.PaymentRepository;
 import br.com.mcoder.ecommerce.repositories.ProductRepository;
 import br.com.mcoder.ecommerce.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +19,26 @@ import java.time.Instant;
 @Service
 public class OrderService {
 
-    @Autowired
-    private OrderRepository repository;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private ProductRepository productRepository;
+    private final OrderRepository repository;
 
-    @Autowired
-    private OrderItemRepository orderItemRepository;
+    private final UserService userService;
 
-    @Autowired
-    private AuthService authService;
+    private final ProductRepository productRepository;
+
+    private final OrderItemRepository orderItemRepository;
+
+    private final AuthService authService;
+
+    private final PaymentRepository paymentRepository;
+
+    public OrderService(OrderRepository repository, UserService userService, ProductRepository productRepository, OrderItemRepository orderItemRepository, AuthService authService, PaymentRepository paymentRepository) {
+        this.repository = repository;
+        this.userService = userService;
+        this.productRepository = productRepository;
+        this.orderItemRepository = orderItemRepository;
+        this.authService = authService;
+        this.paymentRepository = paymentRepository;
+    }
 
     @Transactional(readOnly = true)
     public OrderDTO findById(Long id) {

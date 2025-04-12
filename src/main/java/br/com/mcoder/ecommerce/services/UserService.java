@@ -12,7 +12,6 @@ import br.com.mcoder.ecommerce.repositories.UserRepository;
 import br.com.mcoder.ecommerce.services.exceptions.DatabaseException;
 import br.com.mcoder.ecommerce.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,14 +32,17 @@ import java.util.Optional;
 @Service
 public class UserService implements UserDetailsService {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
+
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, RoleRepository roleRepository) {
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+    }
 
     @Transactional(readOnly = true)
     public Page<UserDTO> findAllPaged(Pageable pageable) {
@@ -126,7 +128,6 @@ public class UserService implements UserDetailsService {
         } catch (Exception e) {
             throw new UsernameNotFoundException("EMAIL NOT FOUND");
         }
-
     }
 
     @Transactional(readOnly = true)
@@ -134,5 +135,4 @@ public class UserService implements UserDetailsService {
         User user = authenticated();
         return new UserDTO(user);
     }
-
 }

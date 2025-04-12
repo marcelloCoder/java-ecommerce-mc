@@ -15,8 +15,11 @@ import java.net.URI;
 @RequestMapping(value = "/orders")
 public class OrderController {
 
-    @Autowired
-    private OrderService productService;
+    private final OrderService productService;
+
+    public OrderController(OrderService productService) {
+        this.productService = productService;
+    }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
     @GetMapping(value = "/{id}")
@@ -33,5 +36,4 @@ public class OrderController {
                 .buildAndExpand(orderDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(orderDTO);
     }
-
 }

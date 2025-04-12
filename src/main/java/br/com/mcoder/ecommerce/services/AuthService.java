@@ -8,8 +8,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
+
+    public AuthService(UserService userService) {
+        this.userService = userService;
+    }
+
     public void validateSelfOrAdmin(long userId){
         User me = userService.authenticated();
         if (!me.hasRole("ROLE_ADMIN") && !me.getId().equals(userId)){

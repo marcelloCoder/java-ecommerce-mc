@@ -17,8 +17,12 @@ import java.util.List;
 @Service
 public class CategoryService {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+
+    private final CategoryRepository categoryRepository;
+
+    public CategoryService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     @Transactional(readOnly = true)
     public CategoryDTO findById(Long id){
@@ -44,5 +48,4 @@ public class CategoryService {
     private void copyDtoEntity(CategoryDTO categoryDTO, Category category){
         category.setName(categoryDTO.getName());
     }
-
 }

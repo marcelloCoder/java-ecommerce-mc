@@ -34,17 +34,14 @@ INSERT INTO tb_user (name, email, phone, birth_date, password) VALUES ('Bob', 'b
 INSERT INTO tb_user (name, email, phone, birth_date, password) VALUES ('Rick', 'rick@example.com', '92752718', '1987-04-05', '$2a$10$onOUZH3B60kq0.k55zmY.eRy7JoIWAnQG/d..ksac.Z/ofkRWPJt2');
 
 -- Inserir Pedidos
-INSERT INTO tb_order (moment, status, client_id) VALUES (TIMESTAMP WITH TIME ZONE '2024-02-25T13:00:00Z', 1, 1); -- Pedido de Alice
-INSERT INTO tb_order (moment, status, client_id) VALUES (TIMESTAMP WITH TIME ZONE '2024-03-29T13:00:00Z', 3, 2); -- Pedido de Bob
-INSERT INTO tb_order (moment, status, client_id) VALUES (TIMESTAMP WITH TIME ZONE '2024-03-30T13:00:00Z', 0, 2); -- Pedido de Bob
+INSERT INTO tb_order (moment, status, client_id) VALUES (TIMESTAMP WITH TIME ZONE '2024-02-25T13:00:00Z', 1, 1);-- Pedido de Alice
 
 -- Inserir Itens de Pedido
 INSERT INTO tb_order_item (order_id, product_id, quantity, price) VALUES (1, 1, 1, 1200.00);
 INSERT INTO tb_order_item (order_id, product_id, quantity, price) VALUES (1, 2, 2, 45.00);
-INSERT INTO tb_order_item (order_id, product_id, quantity, price) VALUES (2, 3, 1, 20.00);
 
 -- Inserir Pagamentos
-INSERT INTO tb_payment (moment, order_id) VALUES (TIMESTAMP WITH TIME ZONE '2024-08-05 10:15:00', 2);
+INSERT INTO tb_payment (moment, order_id) VALUES (TIMESTAMP WITH TIME ZONE '2024-08-05 10:15:00', 1);
 
 INSERT INTO tb_role (authority) VALUES ('ROLE_OPERATOR');
 INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');
