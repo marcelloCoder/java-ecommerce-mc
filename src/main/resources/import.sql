@@ -2,6 +2,7 @@
 INSERT INTO tb_category (name) VALUES ('Electronics');
 INSERT INTO tb_category (name) VALUES ('Books');
 INSERT INTO tb_category (name) VALUES ('Home & Kitchen');
+INSERT INTO tb_category (name) VALUES ('Hardware');
 
 -- Inserir Produtos
 INSERT INTO tb_product (name, description, price, img_url) VALUES ('Smartphone', 'Latest model smartphone', 800.00, 'http://example.com/smartphone.jpg');
@@ -32,12 +33,12 @@ INSERT INTO tb_product_category (product_id, category_id) VALUES (7, 3);  -- Cof
 INSERT INTO tb_product_category (product_id, category_id) VALUES (8, 2);  -- E-Reader in Books
 INSERT INTO tb_product_category (product_id, category_id) VALUES (9, 3);  -- Bookshelf in Home & Kitchen
 INSERT INTO tb_product_category (product_id, category_id) VALUES (10, 3); -- Microwave Oven in Home & Kitchen
-INSERT INTO tb_product_category (product_id, category_id) VALUES (11, 1);
-INSERT INTO tb_product_category (product_id, category_id) VALUES (12, 1);
-INSERT INTO tb_product_category (product_id, category_id) VALUES (13, 1);
-INSERT INTO tb_product_category (product_id, category_id) VALUES (14, 1);
-INSERT INTO tb_product_category (product_id, category_id) VALUES (15, 1);
-INSERT INTO tb_product_category (product_id, category_id) VALUES (16, 1);
+INSERT INTO tb_product_category (product_id, category_id) VALUES (11, 4);
+INSERT INTO tb_product_category (product_id, category_id) VALUES (12, 4);
+INSERT INTO tb_product_category (product_id, category_id) VALUES (13, 4);
+INSERT INTO tb_product_category (product_id, category_id) VALUES (14, 4);
+INSERT INTO tb_product_category (product_id, category_id) VALUES (15, 4);
+INSERT INTO tb_product_category (product_id, category_id) VALUES (16, 4);
 
 -- Inserir Usuários
 INSERT INTO tb_user (name, email, phone, birth_date, password) VALUES ('Alice', 'alice@example.com', '1234567890', '1990-01-01', '$2a$10$onOUZH3B60kq0.k55zmY.eRy7JoIWAnQG/d..ksac.Z/ofkRWPJt2');

@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class ProductService {
@@ -92,7 +93,14 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductProjection> findAllTest(Pageable pageable) {
-        return repository.searchProducts(Arrays.asList(), "", pageable);
+    public Page<ProductProjection> findAllTest(String name, String categoryId, Pageable pageable) {
+
+        List<Long> categoryIds = Arrays.asList();
+        if (!"0".equals(categoryId)){
+            String[] vet= categoryId.split(","); // Pegou uma string e gerou um vetor de strings
+            List<String> list = Arrays.asList(vet); // Pegou um vetor de strings e gerou uma lista
+            categoryIds = list.stream().map(x -> Long.parseLong(x)).toList(); // Stream com Expressão lambda para passar cada valor da lista de String e tranformar em Long
+        }
+        return repository.searchProducts(categoryIds, name, pageable);
     }
 }
