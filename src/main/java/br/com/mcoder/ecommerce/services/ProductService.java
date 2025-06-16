@@ -5,6 +5,7 @@ import br.com.mcoder.ecommerce.dto.ProductDTO;
 import br.com.mcoder.ecommerce.dto.ProductMinDTO;
 import br.com.mcoder.ecommerce.entities.Category;
 import br.com.mcoder.ecommerce.entities.Product;
+import br.com.mcoder.ecommerce.projections.ProductProjection;
 import br.com.mcoder.ecommerce.repositories.CategoryRepository;
 import br.com.mcoder.ecommerce.repositories.ProductRepository;
 import br.com.mcoder.ecommerce.services.exceptions.DatabaseException;
@@ -16,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
 
 @Service
 public class ProductService {
@@ -86,5 +89,10 @@ public class ProductService {
                     .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada! : " + categoryDTO.getId() + " nome " + categoryDTO.getName()));
             product.getCategories().add(category);
         }
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ProductProjection> findAllTest(Pageable pageable) {
+        return repository.searchProducts(Arrays.asList(1L, 3L), "", pageable);
     }
 }

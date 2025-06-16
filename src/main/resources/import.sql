@@ -14,6 +14,12 @@ INSERT INTO tb_product (name, description, price, img_url) VALUES ('Coffee Maker
 INSERT INTO tb_product (name, description, price, img_url) VALUES ('E-Reader', 'High-resolution e-reader', 150.00, 'http://example.com/ereader.jpg');
 INSERT INTO tb_product (name, description, price, img_url) VALUES ('Bookshelf', 'Minimalist bookshelf', 200.00, 'http://example.com/bookshelf.jpg');
 INSERT INTO tb_product (name, description, price, img_url) VALUES ('Microwave Oven', 'High-power microwave oven', 180.00, 'http://example.com/microwave.jpg');
+INSERT INTO tb_product (name, description, price, img_url) VALUES ('AMD RX-6600', 'AMD GPU 6gen low price', 799.00, 'http://example.com/rx6600.jpg');
+INSERT INTO tb_product (name, description, price, img_url) VALUES ('AMD RX-7600', 'AMD GPU 7gen low price', 899.00, 'http://example.com/rx7600.jpg');
+INSERT INTO tb_product (name, description, price, img_url) VALUES ('AMD RX-7700XT', 'AMD GPU 7gen high end performance intermediate price', 960.00, 'http://example.com/rx7700xt.jpg');
+INSERT INTO tb_product (name, description, price, img_url) VALUES ('Nvidia RTX 4060', 'Nvidia 40 series GPU low price', 880.00, 'http://example.com/rtx4060.jpg');
+INSERT INTO tb_product (name, description, price, img_url) VALUES ('Nvidia RTX 4080ti', 'Nvidia 40 series GPU ultra performance high price', 1200.00, 'http://example.com/rtx4080ti.jpg');
+INSERT INTO tb_product (name, description, price, img_url) VALUES ('Nvidia RTX 5070', 'Nvidia 50 series GPU high performance high price', 1100.00, 'http://example.com/rtx5070.jpg');
 
 -- Relacionar Produtos com Categorias
 INSERT INTO tb_product_category (product_id, category_id) VALUES (1, 1);  -- Smartphone in Electronics
@@ -26,7 +32,12 @@ INSERT INTO tb_product_category (product_id, category_id) VALUES (7, 3);  -- Cof
 INSERT INTO tb_product_category (product_id, category_id) VALUES (8, 2);  -- E-Reader in Books
 INSERT INTO tb_product_category (product_id, category_id) VALUES (9, 3);  -- Bookshelf in Home & Kitchen
 INSERT INTO tb_product_category (product_id, category_id) VALUES (10, 3); -- Microwave Oven in Home & Kitchen
-
+INSERT INTO tb_product_category (product_id, category_id) VALUES (11, 1);
+INSERT INTO tb_product_category (product_id, category_id) VALUES (12, 1);
+INSERT INTO tb_product_category (product_id, category_id) VALUES (13, 1);
+INSERT INTO tb_product_category (product_id, category_id) VALUES (14, 1);
+INSERT INTO tb_product_category (product_id, category_id) VALUES (15, 1);
+INSERT INTO tb_product_category (product_id, category_id) VALUES (16, 1);
 
 -- Inserir Usuários
 INSERT INTO tb_user (name, email, phone, birth_date, password) VALUES ('Alice', 'alice@example.com', '1234567890', '1990-01-01', '$2a$10$onOUZH3B60kq0.k55zmY.eRy7JoIWAnQG/d..ksac.Z/ofkRWPJt2');

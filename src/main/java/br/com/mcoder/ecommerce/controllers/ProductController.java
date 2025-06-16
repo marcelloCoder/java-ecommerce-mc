@@ -2,6 +2,7 @@ package br.com.mcoder.ecommerce.controllers;
 
 import br.com.mcoder.ecommerce.dto.ProductDTO;
 import br.com.mcoder.ecommerce.dto.ProductMinDTO;
+import br.com.mcoder.ecommerce.projections.ProductProjection;
 import br.com.mcoder.ecommerce.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,12 @@ public class ProductController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
         ProductDTO dto = productService.findById(id);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping(value = "/testQuery")
+    public ResponseEntity<Page<ProductProjection>> findAllTest(Pageable pageable) {
+        Page<ProductProjection> dto = productService.findAllTest(pageable);
         return ResponseEntity.ok(dto);
     }
 
