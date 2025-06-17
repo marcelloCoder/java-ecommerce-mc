@@ -61,11 +61,11 @@ public class ProductController {
     }
 
     @GetMapping(value = "/testQuery")
-    public ResponseEntity<Page<ProductProjection>> findAllTest(
+    public ResponseEntity<Page<ProductDTO>> findAllTest(
             @RequestParam(value = "name", defaultValue = "") String name,
             @RequestParam(value = "categoryId",defaultValue = "0") String categoryId,
             Pageable pageable) {
-        Page<ProductProjection> dto = productService.findAllTest(name, categoryId, pageable);
+        Page<ProductDTO> dto = productService.findAllTest(name, categoryId, pageable);
         return ResponseEntity.ok(dto);
     }
 

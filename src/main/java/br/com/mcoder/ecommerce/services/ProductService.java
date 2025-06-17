@@ -13,6 +13,7 @@ import br.com.mcoder.ecommerce.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -93,7 +94,7 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductProjection> findAllTest(String name, String categoryId, Pageable pageable) {
+    public Page<ProductDTO> findAllTest(String name, String categoryId, Pageable pageable) {
 
         List<Long> categoryIds = Arrays.asList();
         if (!"0".equals(categoryId)){
@@ -101,6 +102,13 @@ public class ProductService {
             List<String> list = Arrays.asList(vet); // Pegou um vetor de strings e gerou uma lista
             categoryIds = list.stream().map(x -> Long.parseLong(x)).toList(); // Stream com Expressão lambda para passar cada valor da lista de String e tranformar em Long
         }
-        return repository.searchProducts(categoryIds, name, pageable);
+        Page<ProductProjection> page = repository.searchProducts(categoryIds, name, pageable); // coleta dados da busca anterior
+        List<Long> productIds = page.map(x -> x.getId()).toList(); // Gera uma lista com os ids de produtos
+
+        List<Product> entities = repository.searchProductsWithCategories(productIds);
+        List<ProductDTO> dtos = entities.stream().map(p -> new ProductDTO(p)).toList();
+
+        Page<ProductDTO> pageDto = new PageImpl<>(dtos, page.getPageable(), page.getTotalElements());
+        return pageDto;
     }
 }
