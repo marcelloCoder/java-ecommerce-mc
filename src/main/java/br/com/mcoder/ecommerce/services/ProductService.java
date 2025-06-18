@@ -10,6 +10,7 @@ import br.com.mcoder.ecommerce.repositories.CategoryRepository;
 import br.com.mcoder.ecommerce.repositories.ProductRepository;
 import br.com.mcoder.ecommerce.services.exceptions.DatabaseException;
 import br.com.mcoder.ecommerce.services.exceptions.ResourceNotFoundException;
+import br.com.mcoder.ecommerce.utils.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -105,7 +106,8 @@ public class ProductService {
         Page<ProductProjection> page = repository.searchProducts(categoryIds, name, pageable); // coleta dados da busca anterior
         List<Long> productIds = page.map(x -> x.getId()).toList(); // Gera uma lista com os ids de produtos
 
-        List<Product> entities = repository.searchProductsWithCategories(productIds);
+        List<Product> entities = repository.searchProductsWithCategories(productIds); // resultado desordenado
+        entities = Utils.replace(page.getContent(), entities); // retorna lista ordenada paginada
         List<ProductDTO> dtos = entities.stream().map(p -> new ProductDTO(p)).toList();
 
         Page<ProductDTO> pageDto = new PageImpl<>(dtos, page.getPageable(), page.getTotalElements());
