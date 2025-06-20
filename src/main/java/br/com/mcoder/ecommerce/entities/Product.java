@@ -1,5 +1,6 @@
 package br.com.mcoder.ecommerce.entities;
 
+import br.com.mcoder.ecommerce.projections.IdProjection;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -9,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tb_product")
-public class Product {
+public class Product implements IdProjection<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +41,7 @@ public class Product {
         this.imgUrl = imgUrl;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
