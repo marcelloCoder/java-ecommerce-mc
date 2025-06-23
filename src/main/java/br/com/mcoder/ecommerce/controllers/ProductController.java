@@ -30,10 +30,19 @@ public class ProductController {
         return ResponseEntity.ok(dto);
     }
 
-
+/*
     @GetMapping
     public ResponseEntity<Page<ProductMinDTO>> findAll(Pageable pageable) {
         Page<ProductMinDTO> dto = productService.findAll(pageable);
+        return ResponseEntity.ok(dto);
+    }
+*/
+    @GetMapping
+    public ResponseEntity<Page<ProductDTO>> findAll(
+            @RequestParam(value = "name", defaultValue = "") String name,
+            @RequestParam(value = "categoryId",defaultValue = "0") String categoryId,
+            Pageable pageable) {
+        Page<ProductDTO> dto = productService.findAll(name, categoryId, pageable);
         return ResponseEntity.ok(dto);
     }
 
@@ -59,14 +68,4 @@ public class ProductController {
         productService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping(value = "/testQuery")
-    public ResponseEntity<Page<ProductDTO>> findAllTest(
-            @RequestParam(value = "name", defaultValue = "") String name,
-            @RequestParam(value = "categoryId",defaultValue = "0") String categoryId,
-            Pageable pageable) {
-        Page<ProductDTO> dto = productService.findAllTest(name, categoryId, pageable);
-        return ResponseEntity.ok(dto);
-    }
-
 }

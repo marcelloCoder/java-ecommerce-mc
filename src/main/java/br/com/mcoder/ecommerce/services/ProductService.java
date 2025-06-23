@@ -35,18 +35,44 @@ public class ProductService {
         this.categoryRepository = categoryRepository;
     }
 
+
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
         Product product = repository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Recurso não encontrado"));
         return new ProductDTO(product);
     }
-
+/* CONSULTA findAll antiga
     @Transactional(readOnly = true)
     public Page<ProductMinDTO> findAll(Pageable pageable) {
         Page<Product> productList = repository.findAll(pageable);
         return productList.map(x -> new ProductMinDTO(x));
     }
+*/
+
+    @SuppressWarnings("unchecked")
+    @Transactional(readOnly = true)
+    public Page<ProductDTO> findAll(String name, String categoryId, Pageable pageable) {
+
+        List<Long> categoryIds = Arrays.asList();
+        if (!"0".equals(categoryId)){
+            String[] vet= categoryId.split(","); // Pegou uma string e gerou um vetor de strings
+            List<String> list = Arrays.asList(vet); // Pegou um vetor de strings e gerou uma lista
+            categoryIds = list.stream().map(x -> Long.parseLong(x)).toList(); // Stream com Expressão lambda para passar cada valor da lista de String e tranformar em Long
+        }
+        Page<ProductProjection> page = repository.searchProducts(categoryIds, name, pageable); // coleta dados da busca anterior
+        List<Long> productIds = page.map(x -> x.getId()).toList(); // Gera uma lista com os ids de produtos
+
+        List<Product> entities = repository.searchProductsWithCategories(productIds); // resultado desordenado
+
+        entities = (List<Product>) Utils.replace(page.getContent(), entities); // retorna lista ordenada paginada
+
+        List<ProductDTO> dtos = entities.stream().map(p -> new ProductDTO(p)).toList();
+
+        Page<ProductDTO> pageDto = new PageImpl<>(dtos, page.getPageable(), page.getTotalElements());
+        return pageDto;
+    }
+
 
     @Transactional
     public ProductDTO insert(ProductDTO productDTO) {
@@ -94,26 +120,4 @@ public class ProductService {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    @Transactional(readOnly = true)
-    public Page<ProductDTO> findAllTest(String name, String categoryId, Pageable pageable) {
-
-        List<Long> categoryIds = Arrays.asList();
-        if (!"0".equals(categoryId)){
-            String[] vet= categoryId.split(","); // Pegou uma string e gerou um vetor de strings
-            List<String> list = Arrays.asList(vet); // Pegou um vetor de strings e gerou uma lista
-            categoryIds = list.stream().map(x -> Long.parseLong(x)).toList(); // Stream com Expressão lambda para passar cada valor da lista de String e tranformar em Long
-        }
-        Page<ProductProjection> page = repository.searchProducts(categoryIds, name, pageable); // coleta dados da busca anterior
-        List<Long> productIds = page.map(x -> x.getId()).toList(); // Gera uma lista com os ids de produtos
-
-        List<Product> entities = repository.searchProductsWithCategories(productIds); // resultado desordenado
-
-        entities = (List<Product>) Utils.replace(page.getContent(), entities); // retorna lista ordenada paginada
-
-        List<ProductDTO> dtos = entities.stream().map(p -> new ProductDTO(p)).toList();
-
-        Page<ProductDTO> pageDto = new PageImpl<>(dtos, page.getPageable(), page.getTotalElements());
-        return pageDto;
-    }
 }
