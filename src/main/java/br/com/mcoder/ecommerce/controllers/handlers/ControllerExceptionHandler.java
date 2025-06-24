@@ -3,6 +3,7 @@ package br.com.mcoder.ecommerce.controllers.handlers;
 import br.com.mcoder.ecommerce.custom.CustomError;
 import br.com.mcoder.ecommerce.custom.ValidationError;
 import br.com.mcoder.ecommerce.services.exceptions.DatabaseException;
+import br.com.mcoder.ecommerce.services.exceptions.EmailException;
 import br.com.mcoder.ecommerce.services.exceptions.ForbiddenException;
 import br.com.mcoder.ecommerce.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,6 +50,13 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(ForbiddenException.class)
     public final ResponseEntity<CustomError> forbidden(ForbiddenException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.FORBIDDEN;
+        CustomError error = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(EmailException.class)
+    public final ResponseEntity<CustomError> email(EmailException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         CustomError error = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(error);
     }
