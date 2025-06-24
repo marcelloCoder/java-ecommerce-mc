@@ -44,6 +44,8 @@ INSERT INTO tb_product_category (product_id, category_id) VALUES (16, 4);
 INSERT INTO tb_user (name, email, phone, birth_date, password) VALUES ('Alice', 'alice@example.com', '1234567890', '1990-01-01', '$2a$10$onOUZH3B60kq0.k55zmY.eRy7JoIWAnQG/d..ksac.Z/ofkRWPJt2');
 INSERT INTO tb_user (name, email, phone, birth_date, password) VALUES ('Bob', 'bob@example.com', '0987654321', '1985-05-12', '$2a$10$onOUZH3B60kq0.k55zmY.eRy7JoIWAnQG/d..ksac.Z/ofkRWPJt2');
 INSERT INTO tb_user (name, email, phone, birth_date, password) VALUES ('Rick', 'rick@example.com', '92752718', '1987-04-05', '$2a$10$onOUZH3B60kq0.k55zmY.eRy7JoIWAnQG/d..ksac.Z/ofkRWPJt2');
+INSERT INTO tb_user (name, email, phone, birth_date, password) VALUES ('Marcello', 'marcellomuenocanal@gmail.com', '99881177', '2001-03-20', '$2a$10$onOUZH3B60kq0.k55zmY.eRy7JoIWAnQG/d..ksac.Z/ofkRWPJt2');
+
 
 -- Inserir Pedidos
 INSERT INTO tb_order (moment, status, client_id) VALUES (TIMESTAMP WITH TIME ZONE '2024-02-25T13:00:00Z', 1, 1);-- Pedido de Alice
@@ -63,3 +65,5 @@ INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 1);
 INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 2);
 INSERT INTO tb_user_role (user_id, role_id) VALUES (3, 1);
 INSERT INTO tb_user_role (user_id, role_id) VALUES (3, 2);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (4, 1);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (4, 2);
