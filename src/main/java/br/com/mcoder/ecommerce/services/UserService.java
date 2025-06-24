@@ -1,9 +1,6 @@
 package br.com.mcoder.ecommerce.services;
 
-import br.com.mcoder.ecommerce.dto.RoleDTO;
-import br.com.mcoder.ecommerce.dto.UserDTO;
-import br.com.mcoder.ecommerce.dto.UserInsertDTO;
-import br.com.mcoder.ecommerce.dto.UserUpdateDTO;
+import br.com.mcoder.ecommerce.dto.*;
 import br.com.mcoder.ecommerce.entities.Role;
 import br.com.mcoder.ecommerce.entities.User;
 import br.com.mcoder.ecommerce.projections.UserDetailsProjection;
@@ -140,4 +137,5 @@ public class UserService implements UserDetailsService {
         User user = authenticated();
         return new UserDTO(user);
     }
+
 }

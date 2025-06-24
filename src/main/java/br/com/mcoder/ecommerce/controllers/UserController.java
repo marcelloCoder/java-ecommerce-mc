@@ -1,5 +1,6 @@
 package br.com.mcoder.ecommerce.controllers;
 
+import br.com.mcoder.ecommerce.dto.EmailDTO;
 import br.com.mcoder.ecommerce.dto.UserDTO;
 import br.com.mcoder.ecommerce.dto.UserInsertDTO;
 import br.com.mcoder.ecommerce.dto.UserUpdateDTO;
@@ -66,6 +67,4 @@ public class UserController {
         userService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }
