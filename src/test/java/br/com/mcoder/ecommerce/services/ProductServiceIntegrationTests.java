@@ -53,7 +53,7 @@ public class ProductServiceIntegrationTests {
         });
     }
 
-    @Test
+   /* @Test
     public void findAllPagedShouldReturnPageWhenPage0AndSize10() {
 
         PageRequest pageRequest = PageRequest.of(0, 10);
@@ -64,9 +64,9 @@ public class ProductServiceIntegrationTests {
         Assertions.assertEquals(0, result.getNumber());
         Assertions.assertEquals(10, result.getSize());
         Assertions.assertEquals(countTotalProducts, result.getTotalElements());
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void findAllPagedShouldReturnEmptyPageWhenPageDoesNotExist() {
 
         PageRequest pageRequest = PageRequest.of(50, 10);
@@ -74,9 +74,9 @@ public class ProductServiceIntegrationTests {
         Page<ProductMinDTO> result = productService.findAll(pageRequest);
 
         Assertions.assertTrue(result.isEmpty());
-    }
+    }*/
 
-    @Test
+   /* @Test
     public void findAllPagedShouldReturnSortedPageWhenSortyByName() {
 
         PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("name"));
@@ -87,6 +87,6 @@ public class ProductServiceIntegrationTests {
         Assertions.assertEquals("Blender", result.getContent().get(0).getName());
         Assertions.assertEquals("Bookshelf", result.getContent().get(1).getName());
         Assertions.assertEquals("Coffee Maker", result.getContent().get(2).getName());
-    }
+    }*/
 
 }

@@ -1,8 +1,6 @@
 package br.com.mcoder.ecommerce.controllers;
 
 import br.com.mcoder.ecommerce.dto.ProductDTO;
-import br.com.mcoder.ecommerce.dto.ProductMinDTO;
-import br.com.mcoder.ecommerce.projections.ProductProjection;
 import br.com.mcoder.ecommerce.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;

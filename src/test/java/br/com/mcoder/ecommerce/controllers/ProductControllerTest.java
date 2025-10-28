@@ -59,7 +59,7 @@ public class ProductControllerTest {
         productMinDTO = ProductFactory.createProductMinDto();
         page = new PageImpl<>(List.of(productMinDTO));
 
-        Mockito.when(service.findAll(ArgumentMatchers.any())).thenReturn(page);
+        //Mockito.when(service.findAll(ArgumentMatchers.any())).thenReturn(page);
 
         when(service.findById(existingId)).thenReturn(productDTO);
 

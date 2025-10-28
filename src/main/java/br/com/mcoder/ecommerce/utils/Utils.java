@@ -1,8 +1,6 @@
 package br.com.mcoder.ecommerce.utils;
 
-import br.com.mcoder.ecommerce.entities.Product;
 import br.com.mcoder.ecommerce.projections.IdProjection;
-import br.com.mcoder.ecommerce.projections.ProductProjection;
 
 import java.util.ArrayList;
 import java.util.HashMap;

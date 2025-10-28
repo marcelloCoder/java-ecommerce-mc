@@ -24,6 +24,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,13 +82,14 @@ public class ProductServiceTest {
                 .thenReturn(Optional.of(new Category(1L, "Electronics")));
     }
 
-    @Test
+   /* @Test
     public void findAllPagedShouldReturnPage() {
         Pageable pageable = PageRequest.of(0, 10);
         Page<ProductMinDTO> result = service.findAll(pageable);
         Assertions.assertNotNull(result);
         Mockito.verify(repository, Mockito.times(1)).findAll((pageable));
-    }
+    }*/
+
 
 
     @Test

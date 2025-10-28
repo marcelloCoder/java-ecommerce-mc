@@ -2,7 +2,6 @@ package br.com.mcoder.ecommerce.controllers;
 
 import br.com.mcoder.ecommerce.dto.CategoryDTO;
 import br.com.mcoder.ecommerce.dto.ProductDTO;
-import br.com.mcoder.ecommerce.entities.Category;
 import br.com.mcoder.ecommerce.factory.ProductFactory;
 import br.com.mcoder.ecommerce.token.TokenUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
