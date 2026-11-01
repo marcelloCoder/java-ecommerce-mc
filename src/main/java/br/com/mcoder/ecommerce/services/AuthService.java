@@ -61,6 +61,8 @@ public class AuthService {
             throw new ResourceNotFoundException("Email não encontrado!");
         }
 
+        passwordRecoverRepository.deleteByEmail(body.getEmail());
+
         String token = UUID.randomUUID().toString();
 
         PasswordRecover recover = new PasswordRecover();
@@ -81,11 +83,14 @@ public class AuthService {
         if (result.isEmpty()){
             throw new ResourceNotFoundException("Token inválido");
         }
-        Optional<User> optionalUser = userRepository.findByEmail(result.get(0).getEmail());
+        String email = result.get(0).getEmail();
+        Optional<User> optionalUser = userRepository.findByEmail(email);
         User user = optionalUser.orElseThrow(
                 () -> new UsernameNotFoundException("Usuário com este e-mail não foi encontrado.")
         );
         user.setPassword(passwordEncoder.encode(body.getPassword()));
-        user = userRepository.save(user);
+        userRepository.save(user);
+
+        passwordRecoverRepository.deleteByEmail(email);
     }
 }
