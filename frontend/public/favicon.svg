@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="mShop">
+  <rect width="64" height="64" rx="14" fill="#c2410c"/>
+  <path
+    fill="#fffdf9"
+    d="M14 48V16h7.2l10.8 22.4L42.8 16H50v32h-6.4V27.2L33.2 48h-2.4L20.4 27.2V48H14z"
+  />
+</svg>

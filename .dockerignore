@@ -1,0 +1,11 @@
+**/target
+**/node_modules
+**/.git
+**/.idea
+**/.neon
+**/.env
+**/.env.*
+!**/.env.staging.example
+**/dist
+**/*.md
+**/agent-transcripts

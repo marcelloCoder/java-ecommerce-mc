@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
+import org.springframework.security.oauth2.core.OAuth2RefreshToken;
 import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
@@ -102,7 +103,9 @@ public class CustomPasswordAuthenticationProvider implements AuthenticationProvi
 
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .attribute(Principal.class.getName(), clientPrincipal)
-                .principalName(clientPrincipal.getName())
+                .attribute("user_name", username)
+                .attribute("user_authorities", user.getAuthorities().stream().map(a -> a.getAuthority()).toList())
+                .principalName(username)
                 .authorizationGrantType(new AuthorizationGrantType("password"))
                 .authorizedScopes(authorizedScopes);
 
@@ -125,10 +128,24 @@ public class CustomPasswordAuthenticationProvider implements AuthenticationProvi
             authorizationBuilder.accessToken(accessToken);
         }
 
+        //-----------REFRESH TOKEN----------
+        OAuth2RefreshToken refreshToken = null;
+        if (registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.REFRESH_TOKEN)) {
+            OAuth2TokenContext refreshTokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.REFRESH_TOKEN).build();
+            OAuth2Token generatedRefreshToken = this.tokenGenerator.generate(refreshTokenContext);
+            if (!(generatedRefreshToken instanceof OAuth2RefreshToken)) {
+                OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
+                        "The token generator failed to generate the refresh token.", ERROR_URI);
+                throw new OAuth2AuthenticationException(error);
+            }
+            refreshToken = (OAuth2RefreshToken) generatedRefreshToken;
+            authorizationBuilder.refreshToken(refreshToken);
+        }
+
         OAuth2Authorization authorization = authorizationBuilder.build();
         this.authorizationService.save(authorization);
 
-        return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken);
+        return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken, refreshToken);
     }
 
     @Override

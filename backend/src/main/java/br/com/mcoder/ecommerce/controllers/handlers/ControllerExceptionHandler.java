@@ -6,6 +6,7 @@ import br.com.mcoder.ecommerce.services.exceptions.DatabaseException;
 import br.com.mcoder.ecommerce.services.exceptions.EmailException;
 import br.com.mcoder.ecommerce.services.exceptions.ForbiddenException;
 import br.com.mcoder.ecommerce.services.exceptions.ResourceNotFoundException;
+import br.com.mcoder.ecommerce.services.exceptions.UnauthorizedException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +51,13 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(ForbiddenException.class)
     public final ResponseEntity<CustomError> forbidden(ForbiddenException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.FORBIDDEN;
+        CustomError error = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public final ResponseEntity<CustomError> unauthorized(UnauthorizedException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
         CustomError error = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(error);
     }

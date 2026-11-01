@@ -1,0 +1,7 @@
+target
+.idea
+.neon
+.env.staging
+.agents
+*.md
+scripts

@@ -1,7 +1,10 @@
 package br.com.mcoder.ecommerce.controllers;
 
+import br.com.mcoder.ecommerce.dto.AccessTokenDTO;
 import br.com.mcoder.ecommerce.dto.EmailDTO;
+import br.com.mcoder.ecommerce.dto.LoginDTO;
 import br.com.mcoder.ecommerce.dto.NewPasswordDTO;
+import br.com.mcoder.ecommerce.dto.RefreshTokenDTO;
 import br.com.mcoder.ecommerce.services.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,16 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     @Autowired
     private AuthService authService;
+
+    @PostMapping(value = "/login")
+    public ResponseEntity<AccessTokenDTO> login(@Valid @RequestBody LoginDTO body) {
+        return ResponseEntity.ok(authService.login(body));
+    }
+
+    @PostMapping(value = "/refresh")
+    public ResponseEntity<AccessTokenDTO> refresh(@Valid @RequestBody RefreshTokenDTO body) {
+        return ResponseEntity.ok(authService.refresh(body));
+    }
 
     @PostMapping(value = "/recovertoken")
     public ResponseEntity<Void> createRecoverToken(@Valid @RequestBody EmailDTO body) {

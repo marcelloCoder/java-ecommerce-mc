@@ -58,6 +58,9 @@ public class AuthorizationServerConfig {
     @Value("${security.jwt.duration}")
     private Integer jwtDurationSeconds;
 
+    @Value("${security.jwt.refresh-duration}")
+    private Integer jwtRefreshDurationSeconds;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -102,6 +105,7 @@ public class AuthorizationServerConfig {
                 .scope("read")
                 .scope("write")
                 .authorizationGrantType(new AuthorizationGrantType("password"))
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .tokenSettings(tokenSettings())
                 .clientSettings(clientSettings())
                 .build();
@@ -116,6 +120,8 @@ public class AuthorizationServerConfig {
         return TokenSettings.builder()
                 .accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED)
                 .accessTokenTimeToLive(Duration.ofSeconds(jwtDurationSeconds))
+                .refreshTokenTimeToLive(Duration.ofSeconds(jwtRefreshDurationSeconds))
+                .reuseRefreshTokens(false)
                 .build();
         // @formatter:on
     }
@@ -136,20 +142,40 @@ public class AuthorizationServerConfig {
         JwtGenerator jwtGenerator = new JwtGenerator(jwtEncoder);
         jwtGenerator.setJwtCustomizer(tokenCustomizer());
         OAuth2AccessTokenGenerator accessTokenGenerator = new OAuth2AccessTokenGenerator();
-        return new DelegatingOAuth2TokenGenerator(jwtGenerator, accessTokenGenerator);
+        OAuth2RefreshTokenGenerator refreshTokenGenerator = new OAuth2RefreshTokenGenerator();
+        return new DelegatingOAuth2TokenGenerator(jwtGenerator, accessTokenGenerator, refreshTokenGenerator);
     }
 
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer() {
         return context -> {
-            OAuth2ClientAuthenticationToken principal = context.getPrincipal();
-            CustomUserAuthorities user = (CustomUserAuthorities) principal.getDetails();
-            List<String> authorities = user.getAuthorities().stream().map(x -> x.getAuthority()).toList();
-            if (context.getTokenType().getValue().equals("access_token")) {
+            if (!"access_token".equals(context.getTokenType().getValue())) {
+                return;
+            }
+
+            String username = null;
+            List<String> authorities = List.of();
+
+            if (context.getPrincipal() instanceof OAuth2ClientAuthenticationToken clientPrincipal
+                    && clientPrincipal.getDetails() instanceof CustomUserAuthorities user) {
+                username = user.getUsername();
+                authorities = user.getAuthorities().stream().map(x -> x.getAuthority()).toList();
+            }
+
+            var authorization = context.getAuthorization();
+            if (username == null && authorization != null) {
+                username = authorization.getAttribute("user_name");
+                List<String> stored = authorization.getAttribute("user_authorities");
+                if (stored != null) {
+                    authorities = stored;
+                }
+            }
+
+            if (username != null) {
                 // @formatter:off
                 context.getClaims()
                         .claim("authorities", authorities)
-                        .claim("username", user.getUsername());
+                        .claim("username", username);
                 // @formatter:on
             }
         };

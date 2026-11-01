@@ -1,0 +1,46 @@
+# Blueprint Render — API mShop.
+# Secrets (sync: false) são preenchidos no dashboard, a partir de deploy/prod.env (gitignored).
+# Plano: o da conta (Render não tem mais web service gratuito permanente).
+
+services:
+  - type: web
+    name: mshop-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /products
+    envVars:
+      - key: APP_PROFILE
+        value: prod
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_USERNAME
+        sync: false
+      - key: DATABASE_PASSWORD
+        sync: false
+      - key: CLIENT_ID
+        value: mshop-prod-client
+      - key: CLIENT_SECRET
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      - key: PASSWORD_RECOVER_URI
+        sync: false
+      - key: JWT_DURATION
+        value: "900"
+      - key: JWT_REFRESH_DURATION
+        value: "604800"
+      - key: SECURITY_TOKEN_URI
+        value: http://127.0.0.1:8080/oauth2/token
+      - key: EMAIL_HOST
+        sync: false
+      - key: EMAIL_PORT
+        value: "587"
+      - key: EMAIL_USERNAME
+        sync: false
+      - key: EMAIL_PASSWORD
+        sync: false
+      - key: EMAIL_SMTP_AUTH
+        value: "true"
+      - key: EMAIL_SMTP_STARTTLS
+        value: "true"

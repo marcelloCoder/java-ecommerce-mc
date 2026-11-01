@@ -1,0 +1,76 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: mshop
+      POSTGRES_USER: mshop
+      POSTGRES_PASSWORD: mshop
+    ports:
+      - "5433:5432"
+    volumes:
+      - mshop_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mshop -d mshop"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mailpit:
+    image: axllent/mailpit:v1.21
+    ports:
+      - "8025:8025"   # UI
+      - "1025:1025"   # SMTP
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8025/api/v1/info"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+      mailpit:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      APP_PROFILE: prod
+      DATABASE_URL: jdbc:postgresql://db:5432/mshop
+      DATABASE_USERNAME: mshop
+      DATABASE_PASSWORD: mshop
+      CORS_ORIGINS: http://localhost:5173,http://localhost:8081
+      PASSWORD_RECOVER_URI: http://localhost:8081/recover-password/
+      CLIENT_ID: mshop-docker-client
+      CLIENT_SECRET: mshop-docker-secret-change-me
+      JWT_DURATION: "900"
+      JWT_REFRESH_DURATION: "604800"
+      SECURITY_TOKEN_URI: http://127.0.0.1:8080/oauth2/token
+      EMAIL_HOST: mailpit
+      EMAIL_PORT: "1025"
+      EMAIL_USERNAME: noreply@mshop.local
+      EMAIL_PASSWORD: ""
+      EMAIL_SMTP_AUTH: "false"
+      EMAIL_SMTP_STARTTLS: "false"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/products?size=1 >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 40s
+
+  web:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://localhost:8080
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "8081:80"
+
+volumes:
+  mshop_pg:

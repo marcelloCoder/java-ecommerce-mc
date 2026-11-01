@@ -1,0 +1,8 @@
+.idea/
+.neon/
+.env
+.env.local
+.env.staging
+deploy/urls.env
+deploy/prod.env
+**/.DS_Store
