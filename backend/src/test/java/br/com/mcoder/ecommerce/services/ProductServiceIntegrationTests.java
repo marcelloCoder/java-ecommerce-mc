@@ -34,7 +34,7 @@ public class ProductServiceIntegrationTests {
         existingId = 1L;
         existingId2 = 5L;
         nonExistingId = 1000L;
-        countTotalProducts = 10L;
+        countTotalProducts = 16L;
     }
 
     @Test

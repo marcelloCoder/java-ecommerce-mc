@@ -44,7 +44,7 @@ public class ProductControllerIntegrationTest {
     void setUp() throws Exception {
         existingId = 1L;
         nonExistingId = 1000L;
-        countTotalProducts = 10L;
+        countTotalProducts = 16L;
         operatorUsername = "alice@example.com";
         operatorPassword = "123456";
         adminUsername = "bob@example.com";
@@ -187,9 +187,9 @@ public class ProductControllerIntegrationTest {
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.totalElements").value(countTotalProducts));
         resultActions.andExpect(jsonPath("$.content").exists());
-        resultActions.andExpect(jsonPath("$.content[0].name").value("Blender"));
-        resultActions.andExpect(jsonPath("$.content[1].name").value("Bookshelf"));
-        resultActions.andExpect(jsonPath("$.content[2].name").value("Coffee Maker"));
+        resultActions.andExpect(jsonPath("$.content[0].name").value("AMD RX-6600"));
+        resultActions.andExpect(jsonPath("$.content[1].name").value("AMD RX-7600"));
+        resultActions.andExpect(jsonPath("$.content[2].name").value("AMD RX-7700XT"));
     }
 
     @Test

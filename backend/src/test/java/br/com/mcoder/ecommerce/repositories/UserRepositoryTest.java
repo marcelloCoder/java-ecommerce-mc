@@ -25,7 +25,7 @@ public class UserRepositoryTest {
     void setUp() throws Exception {
         existingId = 1L;
         nonExistingId = 1000L;
-        countTotalUsers = 3L;
+        countTotalUsers = 4L;
     }
 
     @Test
